@@ -1,0 +1,8 @@
+.claude/**
+.vscode/**
+.vscode-test/**
+.gitignore
+scripts/**
+*.vsix
+**/*.map
+**/*.ts

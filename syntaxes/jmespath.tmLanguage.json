@@ -1,0 +1,293 @@
+{
+  "name": "JMESPath",
+  "scopeName": "source.jmespath",
+  "patterns": [
+    {
+      "include": "#jpx-directive"
+    },
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#expression"
+    }
+  ],
+  "repository": {
+    "jpx-directive": {
+      "patterns": [
+        {
+          "match": "^\\s*(--)\\s*(:name)\\b\\s*(.*?)\\s*$",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.comment.jmespath"
+            },
+            "2": {
+              "name": "keyword.other.directive.jmespath"
+            },
+            "3": {
+              "name": "entity.name.function.query.jmespath"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(--)\\s*(:desc(?:ription)?)\\b\\s*(.*)$",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.comment.jmespath"
+            },
+            "2": {
+              "name": "keyword.other.directive.jmespath"
+            },
+            "3": {
+              "name": "comment.line.double-dash.jmespath"
+            }
+          }
+        }
+      ]
+    },
+    "comment": {
+      "match": "^\\s*(--)(?:\\s.*)?$",
+      "name": "comment.line.double-dash.jmespath",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.comment.jmespath"
+        }
+      }
+    },
+    "expression": {
+      "patterns": [
+        {
+          "include": "#let"
+        },
+        {
+          "include": "#literal"
+        },
+        {
+          "include": "#raw-string"
+        },
+        {
+          "include": "#quoted-identifier"
+        },
+        {
+          "include": "#variable"
+        },
+        {
+          "include": "#function-call"
+        },
+        {
+          "include": "#hash-key"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#punctuation"
+        },
+        {
+          "match": "[A-Za-z_][A-Za-z0-9_]*",
+          "name": "variable.other.property.jmespath"
+        }
+      ]
+    },
+    "let": {
+      "begin": "\\b(let)(?=\\s+\\$)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.let.jmespath"
+        }
+      },
+      "end": "\\b(in)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.in.jmespath"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#expression"
+        }
+      ]
+    },
+    "literal": {
+      "begin": "`",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.literal.begin.jmespath"
+        }
+      },
+      "end": "`",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.literal.end.jmespath"
+        }
+      },
+      "contentName": "meta.embedded.inline.json",
+      "patterns": [
+        {
+          "match": "\\\\`",
+          "name": "constant.character.escape.jmespath"
+        },
+        {
+          "include": "source.json"
+        }
+      ]
+    },
+    "raw-string": {
+      "begin": "'",
+      "end": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.jmespath"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.jmespath"
+        }
+      },
+      "name": "string.quoted.single.jmespath",
+      "patterns": [
+        {
+          "match": "\\\\['\\\\]",
+          "name": "constant.character.escape.jmespath"
+        }
+      ]
+    },
+    "quoted-identifier": {
+      "begin": "\"",
+      "end": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.jmespath"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.jmespath"
+        }
+      },
+      "name": "string.quoted.double.jmespath",
+      "patterns": [
+        {
+          "match": "\\\\(?:[\"\\\\/bfnrt]|u[0-9A-Fa-f]{4})",
+          "name": "constant.character.escape.jmespath"
+        }
+      ]
+    },
+    "variable": {
+      "patterns": [
+        {
+          "match": "(\\$)[A-Za-z_][A-Za-z0-9_]*",
+          "name": "variable.other.readwrite.jmespath",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.variable.jmespath"
+            }
+          }
+        },
+        {
+          "match": "\\$(?![A-Za-z_])",
+          "name": "variable.language.root.jmespath"
+        },
+        {
+          "match": "@",
+          "name": "variable.language.current.jmespath"
+        }
+      ]
+    },
+    "function-call": {
+      "patterns": [
+        {
+          "match": "\\b(abs|avg|ceil|contains|ends_with|floor|join|keys|length|map|max|max_by|merge|min|min_by|not_null|reverse|sort|sort_by|starts_with|sum|to_array|to_number|to_string|type|values)(?=\\s*\\()",
+          "name": "support.function.builtin.jmespath"
+        },
+        {
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*\\()",
+          "name": "entity.name.function.jmespath"
+        }
+      ]
+    },
+    "hash-key": {
+      "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=:)",
+      "captures": {
+        "1": {
+          "name": "support.type.property-name.jmespath"
+        }
+      }
+    },
+    "number": {
+      "match": "-?\\b\\d+\\b",
+      "name": "constant.numeric.integer.jmespath"
+    },
+    "operator": {
+      "patterns": [
+        {
+          "match": "\\|\\||&&",
+          "name": "keyword.operator.logical.jmespath"
+        },
+        {
+          "match": "==|!=|<=|>=|<|>",
+          "name": "keyword.operator.comparison.jmespath"
+        },
+        {
+          "match": "!",
+          "name": "keyword.operator.logical.jmespath"
+        },
+        {
+          "match": "&",
+          "name": "keyword.operator.expression-reference.jmespath"
+        },
+        {
+          "match": "\\|",
+          "name": "keyword.operator.pipe.jmespath"
+        },
+        {
+          "match": "(\\[)(\\?)",
+          "captures": {
+            "1": {
+              "name": "punctuation.section.brackets.begin.jmespath"
+            },
+            "2": {
+              "name": "keyword.operator.filter.jmespath"
+            }
+          }
+        },
+        {
+          "match": "\\[\\]",
+          "name": "keyword.operator.flatten.jmespath"
+        },
+        {
+          "match": "\\*",
+          "name": "keyword.operator.wildcard.jmespath"
+        },
+        {
+          "match": "//|[+\\-/%]",
+          "name": "keyword.operator.arithmetic.jmespath"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": "\\.",
+          "name": "punctuation.accessor.jmespath"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.jmespath"
+        },
+        {
+          "match": ":",
+          "name": "punctuation.separator.colon.jmespath"
+        },
+        {
+          "match": "[\\[\\]{}()]",
+          "name": "punctuation.section.brackets.jmespath"
+        }
+      ]
+    }
+  }
+}

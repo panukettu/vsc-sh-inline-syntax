@@ -1,0 +1,97 @@
+{
+  "name": "sh-inline-syntax",
+  "displayName": "Shell inline syntax (awk, jq, sed, python, JMESPath)",
+  "description": "Syntax highlighting for awk, jq, sed, python -c, and JMESPath programs embedded in shell scripts.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publisher": "0xp",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "shell",
+    "bash",
+    "awk",
+    "jq",
+    "sed",
+    "python",
+    "jmespath",
+    "jpx"
+  ],
+  "galleryBanner": {
+    "color": "#0a0c10",
+    "theme": "dark"
+  },
+  "extensionDependencies": [
+    "edwinkofler.vscode-assorted-languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "jmespath",
+        "aliases": [
+          "JMESPath",
+          "jpx"
+        ],
+        "extensions": [
+          ".jp",
+          ".jpx"
+        ],
+        "configuration": "./language-configuration/jmespath.json"
+      },
+      {
+        "id": "sed",
+        "aliases": [
+          "sed"
+        ],
+        "extensions": [
+          ".sed"
+        ],
+        "firstLine": "^#!.*\\bsed\\b",
+        "configuration": "./language-configuration/sed.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jmespath",
+        "scopeName": "source.jmespath",
+        "path": "./syntaxes/jmespath.tmLanguage.json"
+      },
+      {
+        "language": "sed",
+        "scopeName": "source.sed",
+        "path": "./syntaxes/sed.tmLanguage.json"
+      },
+      {
+        "scopeName": "shell.inline-syntax.injection",
+        "path": "./syntaxes/shell-injection.tmLanguage.json",
+        "injectTo": [
+          "source.shell"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.awk": "awk",
+          "meta.embedded.block.jq": "jq",
+          "meta.embedded.block.python": "python",
+          "meta.embedded.block.sed": "sed",
+          "meta.embedded.block.jmespath": "jmespath",
+          "meta.embedded.inline.jmespath": "jmespath"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.mts",
+    "package": "vsce package",
+    "publish:vsce": "vsce publish --packagePath sh-inline-syntax-$npm_package_version.vsix",
+    "publish:ovsx": "npx --yes ovsx publish sh-inline-syntax-$npm_package_version.vsix",
+    "release:build": "npm run build && npm run package",
+    "release:publish": "npm run publish:vsce && npm run publish:ovsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/panukettu/vsc-sh-inline-syntax.git"
+  }
+}

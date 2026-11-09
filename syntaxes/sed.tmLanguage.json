@@ -1,0 +1,326 @@
+{
+  "name": "sed",
+  "scopeName": "source.sed",
+  "patterns": [
+    {
+      "include": "#script"
+    }
+  ],
+  "repository": {
+    "script": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#substitute"
+        },
+        {
+          "include": "#transliterate"
+        },
+        {
+          "include": "#address"
+        },
+        {
+          "include": "#text-command"
+        },
+        {
+          "include": "#file-command"
+        },
+        {
+          "include": "#label"
+        },
+        {
+          "include": "#command"
+        }
+      ]
+    },
+    "comment": {
+      "match": "(?:^|(?<=[;{}]))\\s*(#).*$",
+      "name": "comment.line.number-sign.sed",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.comment.sed"
+        }
+      }
+    },
+    "substitute": {
+      "match": "(s)([^\\w\\s\\\\])((?:\\\\.|(?!\\2)[^\\\\])*)(\\2)((?:\\\\.|(?!\\2)[^\\\\])*)(\\2)([gpiImMe0-9]*(?:w\\s+\\S+)?)",
+      "captures": {
+        "1": {
+          "name": "keyword.control.command.sed"
+        },
+        "2": {
+          "name": "punctuation.definition.delimiter.sed"
+        },
+        "3": {
+          "name": "string.regexp.sed",
+          "patterns": [
+            {
+              "include": "#regexp"
+            }
+          ]
+        },
+        "4": {
+          "name": "punctuation.definition.delimiter.sed"
+        },
+        "5": {
+          "name": "string.other.replacement.sed",
+          "patterns": [
+            {
+              "include": "#replacement"
+            }
+          ]
+        },
+        "6": {
+          "name": "punctuation.definition.delimiter.sed"
+        },
+        "7": {
+          "name": "storage.modifier.flag.sed"
+        }
+      }
+    },
+    "transliterate": {
+      "match": "(y)([^\\w\\s\\\\])((?:\\\\.|(?!\\2)[^\\\\])*)(\\2)((?:\\\\.|(?!\\2)[^\\\\])*)(\\2)",
+      "captures": {
+        "1": {
+          "name": "keyword.control.command.sed"
+        },
+        "2": {
+          "name": "punctuation.definition.delimiter.sed"
+        },
+        "3": {
+          "name": "string.other.characters.sed",
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.sed"
+            }
+          ]
+        },
+        "4": {
+          "name": "punctuation.definition.delimiter.sed"
+        },
+        "5": {
+          "name": "string.other.characters.sed",
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.sed"
+            }
+          ]
+        },
+        "6": {
+          "name": "punctuation.definition.delimiter.sed"
+        }
+      }
+    },
+    "address": {
+      "patterns": [
+        {
+          "match": "(/)((?:\\\\.|[^/\\\\])*)(/)([IM]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.delimiter.sed"
+            },
+            "2": {
+              "name": "string.regexp.address.sed",
+              "patterns": [
+                {
+                  "include": "#regexp"
+                }
+              ]
+            },
+            "3": {
+              "name": "punctuation.definition.delimiter.sed"
+            },
+            "4": {
+              "name": "storage.modifier.flag.sed"
+            }
+          }
+        },
+        {
+          "match": "(\\\\)([^\\w\\s\\\\])((?:\\\\.|(?!\\2)[^\\\\])*)(\\2)([IM]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.delimiter.sed"
+            },
+            "2": {
+              "name": "punctuation.definition.delimiter.sed"
+            },
+            "3": {
+              "name": "string.regexp.address.sed",
+              "patterns": [
+                {
+                  "include": "#regexp"
+                }
+              ]
+            },
+            "4": {
+              "name": "punctuation.definition.delimiter.sed"
+            },
+            "5": {
+              "name": "storage.modifier.flag.sed"
+            }
+          }
+        },
+        {
+          "match": "\\d+",
+          "name": "constant.numeric.line-number.sed"
+        },
+        {
+          "match": "\\$",
+          "name": "constant.language.last-line.sed"
+        },
+        {
+          "match": "[,~]",
+          "name": "keyword.operator.range.sed"
+        },
+        {
+          "match": "!",
+          "name": "keyword.operator.negation.sed"
+        }
+      ]
+    },
+    "text-command": {
+      "patterns": [
+        {
+          "begin": "(?<![A-Za-z\\\\])([aic])(\\\\)$",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.command.sed"
+            },
+            "2": {
+              "name": "constant.character.escape.sed"
+            }
+          },
+          "end": "(?<![\\\\\\n])$",
+          "contentName": "string.unquoted.text.sed"
+        },
+        {
+          "match": "(?<![A-Za-z\\\\])([aic])(\\\\?)\\s*(.*)$",
+          "captures": {
+            "1": {
+              "name": "keyword.control.command.sed"
+            },
+            "2": {
+              "name": "constant.character.escape.sed"
+            },
+            "3": {
+              "name": "string.unquoted.text.sed"
+            }
+          }
+        }
+      ]
+    },
+    "file-command": {
+      "match": "(?<![A-Za-z\\\\])([rRwW])\\s+(\\S.*)$",
+      "captures": {
+        "1": {
+          "name": "keyword.control.command.sed"
+        },
+        "2": {
+          "name": "string.unquoted.filename.sed"
+        }
+      }
+    },
+    "label": {
+      "patterns": [
+        {
+          "match": "(:)\\s*([^;\\s]+)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.label.sed"
+            },
+            "2": {
+              "name": "entity.name.label.sed"
+            }
+          }
+        },
+        {
+          "match": "(?<![A-Za-z\\\\])([btT])(?:\\s*([^;}\\s]+))?",
+          "captures": {
+            "1": {
+              "name": "keyword.control.branch.sed"
+            },
+            "2": {
+              "name": "entity.name.label.sed"
+            }
+          }
+        }
+      ]
+    },
+    "command": {
+      "patterns": [
+        {
+          "match": "[=dDeFgGhHlnNpPqQxz]",
+          "name": "keyword.control.command.sed"
+        },
+        {
+          "match": "[{}]",
+          "name": "punctuation.section.block.sed"
+        },
+        {
+          "match": ";",
+          "name": "punctuation.terminator.command.sed"
+        }
+      ]
+    },
+    "regexp": {
+      "patterns": [
+        {
+          "match": "\\\\[1-9]",
+          "name": "keyword.other.back-reference.regexp"
+        },
+        {
+          "match": "\\\\[()]|[()]",
+          "name": "punctuation.definition.group.regexp"
+        },
+        {
+          "match": "\\\\\\{[0-9,]*\\\\\\}|\\{[0-9,]*\\}|\\\\?[+?]|\\*",
+          "name": "keyword.operator.quantifier.regexp"
+        },
+        {
+          "match": "\\\\\\||\\|",
+          "name": "keyword.operator.or.regexp"
+        },
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.regexp"
+        },
+        {
+          "match": "\\[\\^?\\]?(?:\\[:\\w+:\\]|[^\\]])*\\]",
+          "name": "constant.other.character-class.set.regexp"
+        },
+        {
+          "match": "[\\^$]",
+          "name": "keyword.control.anchor.regexp"
+        },
+        {
+          "match": "\\.",
+          "name": "constant.character.wildcard.regexp"
+        }
+      ]
+    },
+    "replacement": {
+      "patterns": [
+        {
+          "match": "&",
+          "name": "variable.language.match.sed"
+        },
+        {
+          "match": "\\\\[0-9]",
+          "name": "variable.other.back-reference.sed"
+        },
+        {
+          "match": "\\\\[ULluE]",
+          "name": "keyword.other.case.sed"
+        },
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.sed"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,370 @@
+{
+  "scopeName": "shell.inline-syntax.injection",
+  "injectionSelector": "L:source.shell -comment",
+  "patterns": [
+    {
+      "match": "\\b[gmn]?awk(?:\\s+-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2})*\\s+(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "2": {
+          "name": "meta.embedded.block.awk",
+          "patterns": [
+            {
+              "include": "source.awk"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "\\b[gmn]?awk(?:\\s+-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2})*\\s+(')",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.awk",
+      "patterns": [
+        {
+          "include": "source.awk"
+        }
+      ]
+    },
+    {
+      "match": "\\bjq(?:\\s+-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2})*\\s+(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "2": {
+          "name": "meta.embedded.block.jq",
+          "patterns": [
+            {
+              "include": "source.jq"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "\\bjq(?:\\s+-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2})*\\s+(')",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.jq",
+      "patterns": [
+        {
+          "include": "source.jq"
+        }
+      ]
+    },
+    {
+      "match": "(?:^|[ \\t]++)(--jq)(?:=|[ \\t]+)(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "3": {
+          "name": "meta.embedded.block.jq",
+          "patterns": [
+            {
+              "include": "source.jq"
+            }
+          ]
+        },
+        "4": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "(?:^|[ \\t]++)(--jq)(?:=|[ \\t]+)(')",
+      "beginCaptures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.jq",
+      "patterns": [
+        {
+          "include": "source.jq"
+        }
+      ]
+    },
+    {
+      "match": "\\bpython[0-9.]*(?:\\s+-[^\\s'c]\\S*)*\\s+-c\\s+(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "2": {
+          "name": "meta.embedded.block.python",
+          "patterns": [
+            {
+              "include": "source.python"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "\\bpython[0-9.]*(?:\\s+-[^\\s'c]\\S*)*\\s+-c\\s+(')",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.python",
+      "patterns": [
+        {
+          "include": "source.python"
+        }
+      ]
+    },
+    {
+      "match": "\\bsed(?:\\s+(?:-i\\s*''|-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2}))*\\s+(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "2": {
+          "name": "meta.embedded.block.sed",
+          "patterns": [
+            {
+              "include": "source.sed"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "\\bsed(?:\\s+(?:-i\\s*''|-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2}))*\\s+(')",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.sed",
+      "patterns": [
+        {
+          "include": "source.sed"
+        }
+      ]
+    },
+    {
+      "match": "\\bjpx?(?:\\s+-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2})*\\s+(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "2": {
+          "name": "meta.embedded.block.jmespath",
+          "patterns": [
+            {
+              "include": "source.jmespath"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "\\bjpx?(?:\\s+-\\S+(?:\\s+[^'\\s|;&<>()-][^\\s|;&<>()]*){0,2})*\\s+(')",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.jmespath",
+      "patterns": [
+        {
+          "include": "source.jmespath"
+        }
+      ]
+    },
+    {
+      "match": "(?:^|[ \\t]++)(--query)(?:=|[ \\t]+)(')([^']*)(')",
+      "captures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "3": {
+          "name": "meta.embedded.block.jmespath",
+          "patterns": [
+            {
+              "include": "source.jmespath"
+            }
+          ]
+        },
+        "4": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "(?:^|[ \\t]++)(--query)(?:=|[ \\t]+)(')",
+      "beginCaptures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.jmespath",
+      "patterns": [
+        {
+          "include": "source.jmespath"
+        }
+      ]
+    },
+    {
+      "match": "(?:^|[ \\t]++)(--query)(?:=|[ \\t]+)(\")((?:\\\\.|[^\"\\\\])*)(\")",
+      "captures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.shell"
+        },
+        "3": {
+          "name": "meta.embedded.block.jmespath",
+          "patterns": [
+            {
+              "include": "source.shell#double_quote_escape_char"
+            },
+            {
+              "include": "source.shell#interpolation"
+            },
+            {
+              "include": "source.shell#variable"
+            },
+            {
+              "include": "source.jmespath"
+            }
+          ]
+        },
+        "4": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      }
+    },
+    {
+      "begin": "(?:^|[ \\t]++)(--query)(?:=|[ \\t]+)(\")",
+      "beginCaptures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.shell"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.shell"
+        }
+      },
+      "contentName": "meta.embedded.block.jmespath",
+      "patterns": [
+        {
+          "include": "source.shell#double_quote_escape_char"
+        },
+        {
+          "include": "source.shell#interpolation"
+        },
+        {
+          "include": "source.shell#variable"
+        },
+        {
+          "include": "source.jmespath"
+        }
+      ]
+    },
+    {
+      "match": "(?:^|[ \\t]++)(--query)(?:=|[ \\t]+)([^\\s'\"|;&<>()\\\\$`]+)",
+      "captures": {
+        "1": {
+          "name": "string.unquoted.argument.shell constant.other.option.shell"
+        },
+        "2": {
+          "name": "meta.embedded.inline.jmespath",
+          "patterns": [
+            {
+              "include": "source.jmespath"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
