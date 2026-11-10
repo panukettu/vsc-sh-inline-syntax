@@ -1,33 +1,41 @@
 {
   "name": "sh-inline-syntax",
   "displayName": "Shell inline syntax (awk, jq, sed, python, JMESPath)",
-  "description": "Syntax highlighting for awk, jq, sed, python -c, and JMESPath programs embedded in shell scripts.",
   "version": "0.1.0",
-  "license": "MIT",
-  "publisher": "0xp",
-  "engines": {
-    "vscode": "^1.80.0"
-  },
+  "description": "Syntax highlighting for awk, jq, sed, python -c, and JMESPath programs embedded in shell scripts.",
   "categories": [
     "Programming Languages"
   ],
   "keywords": [
-    "shell",
-    "bash",
     "awk",
-    "jq",
-    "sed",
-    "python",
+    "bash",
     "jmespath",
-    "jpx"
+    "jpx",
+    "jq",
+    "python",
+    "sed",
+    "shell"
   ],
-  "galleryBanner": {
-    "color": "#0a0c10",
-    "theme": "dark"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/panukettu/vsc-sh-inline-syntax.git"
   },
-  "extensionDependencies": [
-    "edwinkofler.vscode-assorted-languages"
-  ],
+  "publisher": "0xp",
+  "scripts": {
+    "build": "bun scripts/build.mts",
+    "fmt": "oxfmt --disable-nested-config --write",
+    "lint": "oxlint --disable-nested-config",
+    "package": "vsce package",
+    "publish:vsce": "vsce publish --packagePath sh-inline-syntax-$npm_package_version.vsix",
+    "publish:ovsx": "bunx ovsx publish sh-inline-syntax-$npm_package_version.vsix",
+    "release:build": "bun run build && bun run package",
+    "release:publish": "bun run publish:vsce && bun run publish:ovsx"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0"
+  },
   "contributes": {
     "languages": [
       {
@@ -82,16 +90,14 @@
       }
     ]
   },
-  "scripts": {
-    "build": "node scripts/build.mts",
-    "package": "vsce package",
-    "publish:vsce": "vsce publish --packagePath sh-inline-syntax-$npm_package_version.vsix",
-    "publish:ovsx": "npx --yes ovsx publish sh-inline-syntax-$npm_package_version.vsix",
-    "release:build": "npm run build && npm run package",
-    "release:publish": "npm run publish:vsce && npm run publish:ovsx"
+  "extensionDependencies": [
+    "edwinkofler.vscode-assorted-languages"
+  ],
+  "galleryBanner": {
+    "color": "#0a0c10",
+    "theme": "dark"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/panukettu/vsc-sh-inline-syntax.git"
+  "engines": {
+    "vscode": "^1.80.0"
   }
 }

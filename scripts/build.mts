@@ -1,5 +1,5 @@
 // Generates the grammars, language configs, and refreshes package.json contributes.
-// Run: npm run build  (Node 22.18+ / 23.6+ runs TypeScript directly; erasable syntax only.)
+// Run: bun run build
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
@@ -96,7 +96,14 @@ function longOption(name: string, lang: string): Rule[] {
   ];
   return [
     ...singleQuoted(prefix + "(')", lang, { 1: OPTION }),
-    ...quoted(prefix + '(")', lang, '"', String.raw`(?:\\.|[^"\\])*`, { 1: OPTION }, shellExpansions),
+    ...quoted(
+      prefix + '(")',
+      lang,
+      '"',
+      String.raw`(?:\\.|[^"\\])*`,
+      { 1: OPTION },
+      shellExpansions,
+    ),
     {
       match: prefix + String.raw`([^\s'"|;&<>()\\$` + "`]+)",
       captures: {
@@ -134,11 +141,7 @@ const IDENT = "[A-Za-z_][A-Za-z0-9_]*";
 const jmespath: Rule = {
   name: "JMESPath",
   scopeName: "source.jmespath",
-  patterns: [
-    { include: "#jpx-directive" },
-    { include: "#comment" },
-    { include: "#expression" },
-  ],
+  patterns: [{ include: "#jpx-directive" }, { include: "#comment" }, { include: "#expression" }],
   repository: {
     // .jpx query libraries: `-- :name query-name`, `-- :desc text`
     "jpx-directive": {
@@ -240,7 +243,10 @@ const jmespath: Rule = {
           match: String.raw`\b(` + STANDARD_FUNCTIONS.join("|") + String.raw`)(?=\s*\()`,
           name: "support.function.builtin.jmespath",
         },
-        { match: String.raw`\b` + IDENT + String.raw`(?=\s*\()`, name: "entity.name.function.jmespath" },
+        {
+          match: String.raw`\b` + IDENT + String.raw`(?=\s*\()`,
+          name: "entity.name.function.jmespath",
+        },
       ],
     },
     "hash-key": {
@@ -309,7 +315,10 @@ const sed: Rule = {
     },
     substitute: {
       match:
-        String.raw`(s)([^\w\s\\])` + SECTION + String.raw`(\2)` + SECTION +
+        String.raw`(s)([^\w\s\\])` +
+        SECTION +
+        String.raw`(\2)` +
+        SECTION +
         String.raw`(\2)([gpiImMe0-9]*(?:w\s+\S+)?)`,
       captures: {
         1: { name: "keyword.control.command.sed" },
@@ -449,7 +458,11 @@ const sed: Rule = {
 const languageConfig: { [lang: string]: Rule } = {
   jmespath: {
     comments: { lineComment: "--" },
-    brackets: [["{", "}"], ["[", "]"], ["(", ")"]],
+    brackets: [
+      ["{", "}"],
+      ["[", "]"],
+      ["(", ")"],
+    ],
     autoClosingPairs: [
       { open: "{", close: "}" },
       { open: "[", close: "]" },
@@ -458,7 +471,14 @@ const languageConfig: { [lang: string]: Rule } = {
       { open: '"', close: '"', notIn: ["string"] },
       { open: "`", close: "`", notIn: ["string"] },
     ],
-    surroundingPairs: [["{", "}"], ["[", "]"], ["(", ")"], ["'", "'"], ['"', '"'], ["`", "`"]],
+    surroundingPairs: [
+      ["{", "}"],
+      ["[", "]"],
+      ["(", ")"],
+      ["'", "'"],
+      ['"', '"'],
+      ["`", "`"],
+    ],
   },
   sed: {
     comments: { lineComment: "#" },
@@ -484,7 +504,11 @@ const contributes: Rule = {
     },
   ],
   grammars: [
-    { language: "jmespath", scopeName: "source.jmespath", path: "./syntaxes/jmespath.tmLanguage.json" },
+    {
+      language: "jmespath",
+      scopeName: "source.jmespath",
+      path: "./syntaxes/jmespath.tmLanguage.json",
+    },
     { language: "sed", scopeName: "source.sed", path: "./syntaxes/sed.tmLanguage.json" },
     {
       scopeName: "shell.inline-syntax.injection",
